@@ -40,7 +40,8 @@ export default function Home() {
     if (error) { setNotice(error.message); return; }
     if (!data?.league) { setLeague(null); setPlayers([]); setPicks([]); return; }
     setLeague(data.league); setPlayers(data.players || []); setPicks(data.picks || []);
-    if (data.league.status === 'drafting' || data.league.status === 'complete') setView('draft');
+    const hasProfile = !!localStorage.getItem(storageKey(room));
+    if (hasProfile && (data.league.status === 'drafting' || data.league.status === 'complete')) setView('draft');
   };
 
   useEffect(() => { loadDraft(); }, [room]);
